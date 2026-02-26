@@ -30,6 +30,25 @@ def load_files(data_path="data"):
         
     return documents
 
+def chunk_files(documents, chunk_size=800, chunk_overlap=0):
+    text_splitter = CharacterTextSplitter(
+        chunk_size = chunk_size,
+        chunk_overlap=chunk_overlap
+    )
+
+    chunks = text_splitter.split_documents(documents)
+
+    if chunks:
+
+        for i, chunk in enumerate(chunks[:5]):
+            print(f"Chunk {i+1}:")
+            print(f"Content: {chunk.page_content[:100]}...")  # Print the first 100 characters of the chunk
+            print(f"Content Length: {len(chunk.page_content)} characters")
+            print(f"Metadata: {chunk.metadata}")
+            print("-" * 50)
+    
+    return chunks
+
 
 
 def main():
@@ -38,7 +57,7 @@ def main():
     test_files = load_files(data_path="./data")
     
     # Chunking the files
-
+    chunks = chunk_files(test_files)
     # Embedding and Storing in Vector DB
 
 
